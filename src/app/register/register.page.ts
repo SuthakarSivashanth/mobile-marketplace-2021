@@ -1,3 +1,5 @@
+import { UserService } from './../services/user.service';
+import { Router } from '@angular/router';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IonSlides, ActionSheetController, NavController } from '@ionic/angular';
 import { Location } from '@angular/common';
@@ -30,6 +32,8 @@ export class RegisterPage implements OnInit {
     private navCtrl: NavController,
     public authService: AuthenticationService,
     private formBuilder: FormBuilder,
+    private router: Router,
+    private userService: UserService
 
   ) {
 
@@ -39,10 +43,10 @@ export class RegisterPage implements OnInit {
     this.authService.getUser().subscribe(result => {
       this.currentUser = result; 
       if(result){
-      this.email = result.email;
-      if (result && result.email && !result.emailVerified) {
-        console.log('email not verified')
-        this.slides.slideTo(1, 500);
+        this.email = result.email;
+        if (result && result.email && !result.emailVerified) {
+          console.log('email not verified')
+          this.slides.slideTo(1, 500);
       }
     }
     });
@@ -85,6 +89,7 @@ export class RegisterPage implements OnInit {
         console.log('email', this.currentUser.emailVerified)
         this.hasVerifiedEmail = this.currentUser.emailVerified;
         if (this.hasVerifiedEmail) {
+          this.userService.addUser(result.uid);
           //this.authService.setEmailVerified(this.hasVerifiedEmail, this.currentUser.uid, this.currentUser);
           this.stopInterval = true;
           clearInterval(this.interval);
@@ -93,13 +98,11 @@ export class RegisterPage implements OnInit {
       }
     });
  
-
-
     // }
-  }, 5000);
-  if (this.stopInterval) {
-    clearInterval(this.interval);
-  }
+    }, 5000);
+    if (this.stopInterval) {
+      clearInterval(this.interval);
+    }
 
   }
 
@@ -120,6 +123,10 @@ export class RegisterPage implements OnInit {
 
   goNext(){
     this.slides.slideNext(500).then(d=>console.log(d))
+  }
+
+  back() {
+    this.router.navigateByUrl('/login');
   }
 
 }

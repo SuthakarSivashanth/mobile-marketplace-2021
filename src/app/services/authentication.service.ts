@@ -8,17 +8,19 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  userData;
+  userData: any=null;
+
   constructor(private ngFireAuth:AngularFireAuth, private router:Router, public afStore:AngularFirestore) { 
     this.ngFireAuth.authState.subscribe(user =>{
       if(user){
         this.userData = user; 
-        localStorage.setItem('user', JSON.stringify(this.userData))
+        localStorage.setItem('user', JSON.stringify(this.userData));
       }
       else{
         localStorage.setItem('user', null);
       }
     })
+    
   }
 
   SignIn(email, password){
@@ -36,6 +38,12 @@ export class AuthenticationService {
 
   getUser(){
     return this.ngFireAuth.user;
+    // return this.ngFireAuth.authState;
+  }
+
+  getUserID() {
+    if (this.userData !== null)
+      return this.userData.uid;
   }
 
 }
