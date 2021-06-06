@@ -17,15 +17,16 @@ export class ProfilePage implements OnInit{
   editForm: FormGroup;
   userData: AppUser;
   allUsers; 
-  imagePath;
-
-  id
+  imageFile;
+  imageUrl;
+  defaultImg = true;
+  id;
 
   constructor(
     private router: Router, 
     private authService: AuthenticationService,
     private userService: UserService,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
     ) { 
       this.id = this.userService.getUserID();
     }
@@ -80,14 +81,35 @@ export class ProfilePage implements OnInit{
   updateProfile(formValue) {
     if (formValue) {
       this.userData = formValue;
+      // Setting imagUrl given from upload button
+      this.userData.userAvatarUrl = this.imageUrl;  
+      this.defaultImg = false;
+
       this.userService.updateUserData(this.userData);
       console.log('The user updated the profile');
       this.resetForm(this.editForm);
     }
   }
 
+  updateProfileImg() {
+    
+    let imgUrlP = this.userService.updateProfileImg(this.imageFile);
+    console.log(imgUrlP);
+    imgUrlP.then(snapShot => {
+      console.log('The image is uploading');
+      snapShot.ref.getDownloadURL()
+      .then(url => {
+        this.imageUrl = url;
+        console.log(`An image is uploaded with url: ${this.imageUrl}`);
+      })
+    });
+    // this.userData.userAvatarUrl = imgUrl;
+  }
+
   uploadImage($event) {
-    this.imagePath = $event.target.files[0];
+    this.imageFile = $event.target.files[0];
+    // console.log(this.imagePath);
+   
   }
 
   // reset form values after updating profile

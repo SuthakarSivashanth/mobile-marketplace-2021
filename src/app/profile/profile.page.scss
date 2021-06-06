@@ -4,12 +4,24 @@
 }
 
 .userProfile {
-    width: auto;
-    .userProfileIcon {
-        display: block;
-        width: 9.375rem !important;
+    .container {
+        border: 1px solid #dddddd;
+        border-radius: 50%;
+        height: 12.5rem;
+        width: 12.5rem;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-around;
         margin: auto;
-        margin-top: 40px;
+        margin-top: 15px;
+    }
+    .userProfileIcon {
+        vertical-align: middle;
+        width: 12.5rem;
+        height: 12.5rem;
+        border-radius: 50%;
+        margin: auto;
     }
     .details {
         p,
@@ -21,6 +33,7 @@
             font-size: 1rem;
             font-weight: 400;
             margin-left: 10px;
+            color: white;
         }
     }
 }
@@ -45,4 +58,5 @@
     margin: auto;
     width: 40%;
     margin-top: 1.5rem;
+    color: primary;
 }

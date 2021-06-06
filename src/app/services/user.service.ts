@@ -15,6 +15,7 @@ import { from, Observable } from 'rxjs';
 export class UserService {
   private usersDB: AngularFirestoreCollection<AppUser>;
   private usersDB$: Observable<AppUser[]>;
+  // storage = firebase.storage()
 
   constructor(
     private db: AngularFirestore,
@@ -65,6 +66,11 @@ export class UserService {
           delete obj[prop];
       }
       return obj;
+    }
+
+    updateProfileImg(image) {
+      let uid = this.getUserID();
+      return this.userfilesDB.upload(`/${uid}/profileImg-${Date.now()}`, image);
     }
 
     getMyUsers(): Observable<AppUser[]> {

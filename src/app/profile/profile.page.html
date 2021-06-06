@@ -6,8 +6,10 @@
 
 <ion-content>
     <div *ngIf="default" class="userProfile">
-        <ion-img class="userProfileIcon" src="assets/userProfileIcon.png"></ion-img>
-        <ion-card>
+        <div *ngIf="myData$ |async as data" class="container cards-bg">
+            <img class="userProfileIcon" [src]="data.userAvatarUrl || 'assets/userProfileIcon.png' ">
+        </div>
+        <ion-card class="cards-bg">
             <ion-card-title>
                 <h1 class="ion-text-center" color="secondary">My Details</h1>
             </ion-card-title>
@@ -58,15 +60,16 @@
                 <ion-label position="floating">Email:</ion-label>
                 <ion-input type="text" formControlName="email"></ion-input>
             </ion-item>
-            <ion-item class="imgHolder">
+            <ion-item class="imgHolder" lines="full">
                 <ion-icon slot="start" name="image"></ion-icon>
-                <ion-label>Upload Image</ion-label>
-                <ion-input slot="end" type="file" accept="image/png, image/jpeg" (change)="uploadImage($event)"></ion-input>
+                <ion-label>Avator</ion-label>
+                <ion-input class="hidden" slot="end" type="file" accept="image/png, image/jpeg" (change)="uploadImage($event)"></ion-input>
+                <ion-button class="general_btn" slot="end" (click)="updateProfileImg()">Upload</ion-button>
             </ion-item>
             <ion-button class="general_btn" (click)="updateProfile(editForm.value)" shape="round">Update</ion-button>
         </form>
-        <ion-button (click)="renderData()">Touch</ion-button>
-        <pre>{{id}}</pre>
+        <!-- <ion-button (click)="renderData()">Touch</ion-button>
+        <pre>{{id}}</pre> -->
     </div>
 
     <div *ngIf="default" class="footer">
