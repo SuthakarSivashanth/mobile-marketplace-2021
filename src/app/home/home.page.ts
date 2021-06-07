@@ -12,10 +12,17 @@ import 'firebase/firestore';
   styleUrls: ['./home.page.scss'],
 })
 export class HomePage implements OnInit {
+  searchQuery: string = '';
+  usersPosts$;
+
   constructor() { 
   }
 
   ngOnInit() {
+  }
+
+  getItems($event) {
+
   }
 
   

@@ -15,7 +15,11 @@
             <ion-card-title>
                 <h2 class="title">{{post.title}}</h2>
             </ion-card-title>
-            <img *ngIf="post.imageUrl !== '' " class="attachedImg" [src]="post.imageUrl">
+
+            <img *ngIf="post.imageUrl !== '' || post.imageUrl !== null || post.imageUrl !== undefined; else showThis " class="attachedImg" [src]="post.imageUrl">
+            <ng-template #showThis>
+            </ng-template>
+
             <ion-card-content class="details">
                 <div class="text-container">
                     <p>{{post.description}}</p>

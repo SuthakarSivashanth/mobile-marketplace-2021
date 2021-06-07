@@ -21,7 +21,7 @@ export class MyListingsPage implements OnInit {
     this.postForm = this.formBuilder.group({
 
       title: new FormControl('', Validators.compose([
-          Validators.minLength(10),
+          Validators.minLength(5),
           Validators.required
       ])),
       description: new FormControl('', Validators.compose([
@@ -30,7 +30,7 @@ export class MyListingsPage implements OnInit {
       ])),
       imageUrl: new FormControl(''),
       price: new FormControl('', Validators.compose([
-        Validators.minLength(10),
+        Validators.minLength(1),
         Validators.required
       ]))
     });

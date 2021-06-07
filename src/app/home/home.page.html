@@ -1,8 +1,33 @@
 <ion-header>
-    <ion-toolbar>
-        <ion-title>home</ion-title>
-    </ion-toolbar>
+    <ion-searchbar class="searchBar" (ionInput)="getItems($event)"></ion-searchbar>
 </ion-header>
 
 <ion-content>
+    <div class="showWhenSearching">
+
+    </div>
+
+    <div *ngIf="usersPosts$ | async as userPosts">
+        <ion-card class="cards-bg card" *ngFor="let post of usersPosts$">
+            <ion-card-title>
+                <h2 class="title">{{post.title}}</h2>
+            </ion-card-title>
+
+            <img *ngIf="post.imageUrl !== '' || post.imageUrl !== null || post.imageUrl !== undefined; else showThis " class="attachedImg" [src]="post.imageUrl">
+            <ng-template #showThis>
+            </ng-template>
+
+            <ion-card-content class="details">
+                <div class="text-container">
+                    <p>{{post.description}}</p>
+                    <ion-row>
+                        <ion-col>
+                            <h1 class="priceTag">{{post.price |currency}}</h1>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-card-content>
+        </ion-card>
+
+    </div>
 </ion-content>
