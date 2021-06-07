@@ -1,3 +1,5 @@
+import { UserPost } from './../models/UserPost';
+import { UserListingsService } from './../services/user-listings.service';
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -11,35 +13,56 @@ export class MyListingsPage implements OnInit {
   postForm: FormGroup;
 
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private userListingService: UserListingsService
   ) { }
 
   ngOnInit() {
     this.postForm = this.formBuilder.group({
-      title: new FormControl('',Validators.minLength(3)),
-      description: new FormControl('', Validators.minLength(3)),
-      imageUrl: new FormControl('')
+
+      title: new FormControl('', Validators.compose([
+          Validators.minLength(10),
+          Validators.required
+      ])),
+      description: new FormControl('', Validators.compose([
+        Validators.minLength(10),
+        Validators.required
+      ])),
+      imageUrl: new FormControl(''),
+      price: new FormControl('', Validators.compose([
+        Validators.minLength(10),
+        Validators.required
+      ]))
     });
   }
 
   back() {
     this.isEditing = false;
+    this.resetForm(this.postForm);
+    console.log('Back to the myListing page');
   }
 
+  // add button functionality
   addPost() {
     this.isEditing = true;
+    console.log('The user is adding a new post!');
   }
 
-  uploadPostImage() {
-
+  submit(form: UserPost) {
+    // this.isEditing = false;
+    console.log(form);
+    this.userListingService.addItem(form);
+    this.resetForm(this.postForm);
+    // console.log(this.isEditing);
   }
 
-  uploadImage($event) {
-    
-  }
+   // reset form values after updating profile
+   private resetForm(form: FormGroup) {
+    form.reset();
 
-  submit(form: FormGroup) {
-
+    Object.keys(form.controls).forEach((key) => {
+      form.get(key).setErrors(null);
+    })
   }
 
 }

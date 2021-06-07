@@ -1,3 +1,6 @@
+import { Observable } from 'rxjs';
+import { UserPost } from './../models/UserPost';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { UserService } from './user.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Injectable } from '@angular/core';
@@ -6,30 +9,40 @@ import { Injectable } from '@angular/core';
   providedIn: 'root'
 })
 export class UserListingsService {
-  private userFilesDB: AngularFireStorage;
+  private usersFilesDB: AngularFireStorage;
+  private usersPostsDB: AngularFirestoreCollection;  // References all the users
+  // private usersPostsDB$: Observable<UserPost[]>;
   private uid;
 
   constructor(
+    private db: AngularFirestore,
     private afs: AngularFireStorage,
     private  userService: UserService
   ) { 
-    this.userFilesDB = afs;
+    this.usersFilesDB = afs;
     this.uid = userService.getUserID();
+    this.usersPostsDB = this.db.collection('usersPosts');
+    // this.usersPostsDB$ = this.usersPostsDB.valueChanges();
   }
 
-  addItem() {
+  addItem(post: UserPost) {
     // Add an item
+    this.usersPostsDB.doc(`${this.uid}`)
+      .collection<UserPost>('myPosts').doc(`${Date.now()}`).set(post)
+      .then(() => {
+        console.log('A new post is added to the database');
+      })
+      .catch((err) => {
+        console.log('An error is occured: ', err);
+      });
   }
 
   deleteItem() {
     // Delete an item
   }
 
-  getAnItem() {
-    // Take one item
-  }
-
-  getAllItems() {
-    // get all the items
+  getOneUserPosts(): Observable<UserPost[]> {
+    return this.usersPostsDB.doc(`${this.uid}`)
+    .collection<UserPost>('myPosts').valueChanges();
   }
 }

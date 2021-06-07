@@ -1,6 +1,50 @@
+.footer {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.form {
+    text-align: center;
+    width: 100%;
+    .backBtn {
+        position: absolute;
+        top: 20px;
+        left: 0;
+    }
+    .header_lbl {
+        font-size: 1.5rem;
+        color: var(--ion-color-secondary) !important;
+    }
+    .attachedImg {
+        width: 12.5rem;
+        height: 12.5rem;
+    }
+    .text-container {
+        width: 100%;
+    }
+}
+
+.card {
+    .title {
+        text-align: center;
+        font-weight: 600;
+        color: var(--ion-color-secondary) !important;
+    }
+    .details {
+        font-size: 1rem;
+        font-weight: 400;
+        color: white;
+    }
+    .priceTag {
+        color: var(--ion-color-secondary) !important;
+        font-weight: 300;
+    }
+}
+
 .general_btn {
     display: block;
     margin: auto;
     width: 40%;
+    margin-top: 1.5rem;
     color: primary;
 }

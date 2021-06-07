@@ -63,6 +63,8 @@ export class ProfilePage implements OnInit{
     .then((res) => {
       this.router.navigateByUrl('/login');
       console.log('The user is sign out!');
+      localStorage.clear();
+      location.reload();
     });
   }
 

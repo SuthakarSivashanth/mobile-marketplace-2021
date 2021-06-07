@@ -13,7 +13,7 @@ const routes: Routes = [
   },
   {
     path: 'my-listings',
-    loadChildren: () => import('../my-listings/my-listings.module').then( m => m.MyListingsPageModule)
+    loadChildren: () => import('../my-listings/my-listings.module').then( m => m.MyListingsPageModule),
   },
   {
     path: 'profile',

@@ -46,4 +46,8 @@ export class AuthenticationService {
       return this.userData.uid;
   }
 
+  getAuthState() {
+     return this.ngFireAuth.authState;
+  }
+
 }

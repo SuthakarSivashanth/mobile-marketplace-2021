@@ -5,8 +5,9 @@
 </ion-header> -->
 
 <ion-content>
-    <ion-button class="general_btn" (click)="addPost()">Add a post</ion-button>
-    <div *ngIf="isEditing" class="form" #post>
+    <ion-button *ngIf="!isEditing" class="general_btn" shape="round" (click)="addPost()">Add a post</ion-button>
+
+    <div *ngIf="isEditing" class="form">
         <ion-button (click)="back()" fill="clear" class="backBtn">
             <ion-icon slot="start" name="arrow-back-outline" color="dark"></ion-icon>
         </ion-button>
@@ -14,19 +15,39 @@
         <form [formGroup]="postForm">
             <ion-item lines="full">
                 <ion-label position="floating">Title:</ion-label>
-                <ion-input type="text" formControlName="title"></ion-input>
+                <ion-input #title type="text" formControlName="title" required></ion-input>
             </ion-item>
             <ion-item lines="full">
                 <ion-label position="floating">Description:</ion-label>
-                <ion-input type="text" formControlName="description"></ion-input>
+                <ion-input #description type="text" formControlName="description" required></ion-input>
             </ion-item>
             <ion-item lines="full">
                 <ion-label position="floating">ImageUrl:</ion-label>
-                <ion-input type="text" formControlName="imageUrl"></ion-input>
+                <ion-input #imageUrl type="text" formControlName="imageUrl"></ion-input>
+            </ion-item>
+            <ion-item lines="full">
+                <ion-label position="floating">Price:</ion-label>
+                <ion-input #price type="text" formControlName="price" required></ion-input>
             </ion-item>
             <ion-button class="general_btn" shape="round" (click)="submit(postForm.value)">Submit</ion-button>
         </form>
 
+        <ion-card class="cards-bg card">
+            <ion-card-title>
+                <h2 class="title">{{title.value}}</h2>
+            </ion-card-title>
+            <img *ngIf="imageUrl.value !== '' " class="attachedImg" [src]=imageUrl.value>
+            <ion-card-content class="details">
+                <div class="text-container">
+                    <p>{{description.value}}</p>
+                    <ion-row>
+                        <ion-col>
+                            <h1 class="priceTag">{{price.value |currency}}</h1>
+                        </ion-col>
+                    </ion-row>
+                </div>
+            </ion-card-content>
+        </ion-card>
     </div>
 
     <app-my-listings-add *ngIf="!isEditing"></app-my-listings-add>
