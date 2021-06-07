@@ -7,7 +7,9 @@
 <ion-content>
     <div *ngIf="default" class="userProfile">
         <div *ngIf="myData$ |async as data" class="container cards-bg">
-            <img class="userProfileIcon" [src]="data.userAvatarUrl || 'assets/userProfileIcon.png' ">
+            <img *ngIf="data.userAvatarUrl !== '' " class="userProfileIcon" [src]=" data.userAvatarUrl ">
+            <img *ngIf="data.userAvatarUrl === '' " class="userProfileIcon" [src]=" 'assets/userProfileIcon.png' ">
+            <!-- <img class="userProfileIcon" [src]="data.userAvatarUrl"> -->
         </div>
         <ion-card class="cards-bg">
             <ion-card-title>

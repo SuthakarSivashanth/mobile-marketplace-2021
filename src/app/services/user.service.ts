@@ -15,15 +15,17 @@ import { from, Observable } from 'rxjs';
 export class UserService {
   private usersDB: AngularFirestoreCollection<AppUser>;
   private usersDB$: Observable<AppUser[]>;
+  private userfilesDB: AngularFireStorage;
   // storage = firebase.storage()
 
   constructor(
     private db: AngularFirestore,
     private authService: AuthenticationService,
-    private userfilesDB: AngularFireStorage,
+    private afs: AngularFireStorage,
     ) {
       this.usersDB = this.db.collection<AppUser>('users');
       this.usersDB$ = this.usersDB.valueChanges();
+      this.userfilesDB = this.afs;
     }
 
     // Add a new user when registering is worked!
@@ -32,7 +34,7 @@ export class UserService {
         firstname: 'Your firstname',
         lastname: 'Your lastname',
         phonenumber: 'Your phonenumber',
-        userAvatarUrl: 'set your image',
+        userAvatarUrl: '',
         email: 'Your email address', 
       })
       .then(() => {
@@ -81,6 +83,10 @@ export class UserService {
     getUserData(): Observable<AppUser> {
       let uid = this.getUserID();
       return this.usersDB.doc(`${uid}`).valueChanges();
+    }
+
+    getUserFilesDB() {
+      return this.userfilesDB;
     }
 
     // get the stored local storage data

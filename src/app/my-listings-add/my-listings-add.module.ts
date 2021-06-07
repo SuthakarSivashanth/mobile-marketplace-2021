@@ -15,6 +15,7 @@ import { MyListingsAddPage } from './my-listings-add.page';
     IonicModule,
     MyListingsAddPageRoutingModule
   ],
-  declarations: [MyListingsAddPage]
+  declarations: [MyListingsAddPage],
+  exports: [MyListingsAddPage]
 })
 export class MyListingsAddPageModule {}

@@ -88,6 +88,7 @@ export class RegisterPage implements OnInit {
         this.currentUser.reload();
         console.log('email', this.currentUser.emailVerified)
         this.hasVerifiedEmail = this.currentUser.emailVerified;
+        // this.userService.addUser(this.currentUser.uid);
         if (this.hasVerifiedEmail) {
           this.userService.addUser(result.uid);
           //this.authService.setEmailVerified(this.hasVerifiedEmail, this.currentUser.uid, this.currentUser);

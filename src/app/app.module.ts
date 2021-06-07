@@ -12,6 +12,7 @@ import {AngularFireAuthModule} from '@angular/fire/auth'
 import {environment} from 'src/environments/environment'
 import {AngularFireStorageModule} from '@angular/fire/storage'
 import {AngularFireDatabaseModule} from '@angular/fire/database'
+import { MyListingsAddPageModule } from './my-listings-add/my-listings-add.module';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,8 @@ import {AngularFireDatabaseModule} from '@angular/fire/database'
     AppRoutingModule, 
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireStorageModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    MyListingsAddPageModule
   ],
 
   providers: [{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],

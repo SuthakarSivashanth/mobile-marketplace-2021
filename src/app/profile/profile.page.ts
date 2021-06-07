@@ -88,6 +88,7 @@ export class ProfilePage implements OnInit{
       this.userService.updateUserData(this.userData);
       console.log('The user updated the profile');
       this.resetForm(this.editForm);
+      this.default = true;
     }
   }
 

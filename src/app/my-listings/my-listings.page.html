@@ -1,9 +1,33 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>my-listings</ion-title>
-  </ion-toolbar>
-</ion-header>
+<!-- <ion-header>
+    <ion-toolbar>
+        <ion-title>my-listings</ion-title>
+    </ion-toolbar>
+</ion-header> -->
 
 <ion-content>
+    <ion-button class="general_btn" (click)="addPost()">Add a post</ion-button>
+    <div *ngIf="isEditing" class="form" #post>
+        <ion-button (click)="back()" fill="clear" class="backBtn">
+            <ion-icon slot="start" name="arrow-back-outline" color="dark"></ion-icon>
+        </ion-button>
+        <h2 class="ion-text-center header_lbl">Add a new Post</h2>
+        <form [formGroup]="postForm">
+            <ion-item lines="full">
+                <ion-label position="floating">Title:</ion-label>
+                <ion-input type="text" formControlName="title"></ion-input>
+            </ion-item>
+            <ion-item lines="full">
+                <ion-label position="floating">Description:</ion-label>
+                <ion-input type="text" formControlName="description"></ion-input>
+            </ion-item>
+            <ion-item lines="full">
+                <ion-label position="floating">ImageUrl:</ion-label>
+                <ion-input type="text" formControlName="imageUrl"></ion-input>
+            </ion-item>
+            <ion-button class="general_btn" shape="round" (click)="submit(postForm.value)">Submit</ion-button>
+        </form>
 
+    </div>
+
+    <app-my-listings-add *ngIf="!isEditing"></app-my-listings-add>
 </ion-content>
