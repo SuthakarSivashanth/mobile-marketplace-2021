@@ -13,9 +13,9 @@ export class MyListingsAddPage implements OnInit {
   userPosts$: Observable<UserPost[]>;
 
   constructor(
-    private userListingService: UserListingsService
+    private userListingsService: UserListingsService
   ) { 
-    this.userPosts$ = this.userListingService.getOneUserPosts();
+    this.userPosts$ = this.userListingsService.getOneUserPosts();
   }
 
   ngOnInit() {

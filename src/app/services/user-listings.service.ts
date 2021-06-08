@@ -1,9 +1,11 @@
 import { Observable } from 'rxjs';
 import { UserPost } from './../models/UserPost';
-import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
+import { AngularFirestore, AngularFirestoreCollection, DocumentData } from '@angular/fire/firestore';
 import { UserService } from './user.service';
 import { AngularFireStorage } from '@angular/fire/storage';
 import { Injectable } from '@angular/core';
+import firebase from 'firebase/app';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ import { Injectable } from '@angular/core';
 export class UserListingsService {
   private usersFilesDB: AngularFireStorage;
   private usersPostsDB: AngularFirestoreCollection;  // References all the users
-  // private usersPostsDB$: Observable<UserPost[]>;
+  // private usersPostsDB$: Observable<DocumentData[]>;
   private uid;
 
   constructor(
@@ -44,5 +46,9 @@ export class UserListingsService {
   getOneUserPosts(): Observable<UserPost[]> {
     return this.usersPostsDB.doc(`${this.uid}`)
     .collection<UserPost>('myPosts').valueChanges();
+  }
+
+  getAllUsersIDs() {
+    return this.usersPostsDB.valueChanges({idField: 'id'});
   }
 }

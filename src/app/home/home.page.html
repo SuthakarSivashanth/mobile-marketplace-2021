@@ -7,8 +7,9 @@
 
     </div>
 
-    <div *ngIf="usersPosts$ | async as userPosts">
-        <ion-card class="cards-bg card" *ngFor="let post of usersPosts$">
+    <!-- <div *ngIf="usersPosts$ | async as usersPosts">
+        <p>{{usersPosts | json}}</p> -->
+    <!-- <ion-card class="cards-bg card" *ngFor="let post of usersPosts$">
             <ion-card-title>
                 <h2 class="title">{{post.title}}</h2>
             </ion-card-title>
@@ -27,7 +28,8 @@
                     </ion-row>
                 </div>
             </ion-card-content>
-        </ion-card>
-
-    </div>
+        </ion-card> -->
+    <!-- </div> -->
+    <ion-button (click)="test()">Touch</ion-button>
+    <!-- <p *ngIf="items$ | async as items">{{items|json}}</p> -->
 </ion-content>
