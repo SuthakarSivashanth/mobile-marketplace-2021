@@ -9,9 +9,10 @@
         <p>{{userPosts[0].title}}</p>
         <p>{{userPosts[0].imageUrl}}</p>
     </div> -->
-
+    <!-- <p>{{posts |json}}</p> -->
     <div *ngIf="userPosts$ | async as userPosts">
-        <ion-card class="cards-bg card" *ngFor="let post of userPosts">
+        <!-- <p>{{userPosts}}</p> -->
+        <ion-card class="cards-bg card" *ngFor="let post of userPosts.posts">
             <ion-card-title>
                 <h2 class="title">{{post.title}}</h2>
             </ion-card-title>

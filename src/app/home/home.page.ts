@@ -1,3 +1,4 @@
+import { UserService } from './../services/user.service';
 import { UserListingsService } from './../services/user-listings.service';
 
 import { Component, OnInit } from '@angular/core';
@@ -17,20 +18,16 @@ export class HomePage implements OnInit {
   // usersPosts$: Observable<firebase.firestore.DocumentData[]>;
   items: Array<any>;
   items$;
-  data: Observable<{
-    data: firebase.firestore.DocumentData;
-    id: string;
-}[]>;
+  data;
 
   constructor(
-    private userListingsService: UserListingsService
+    private userListingsService: UserListingsService,
+    private userService: UserService
   ) { 
-    // this.items$ = this.userListingsService.getAllUsersIDs();
-    this.userListingsService.getAllUsersIDs()
-      .subscribe(res => {
-        console.log(res);
-      });
-    // this.data = this.userListingsService.getAllUsersIDs();
+  
+    // this.userService.getMyUsers().subscribe(res => {
+    //   console.log(res);
+    // })
   }
 
   ngOnInit() {

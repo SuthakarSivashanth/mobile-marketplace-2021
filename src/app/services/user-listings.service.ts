@@ -29,26 +29,47 @@ export class UserListingsService {
 
   addItem(post: UserPost) {
     // Add an item
-    this.usersPostsDB.doc(`${this.uid}`)
-      .collection<UserPost>('myPosts').doc(`${Date.now()}`).set(post)
-      .then(() => {
-        console.log('A new post is added to the database');
+    let docRef = this.usersPostsDB.doc(`${this.uid}`);
+
+    docRef.get().toPromise()
+      .then(doc => {
+        if (doc.exists) {
+          docRef.update({
+            posts: firebase.firestore.FieldValue.arrayUnion(post)
+          },)
+          .then(() => {
+            console.log('A new post is added to the database');
+          })
+          .catch((err) => {
+            console.log('An error is occured: ', err);
+          });
+        }
+        else {
+          docRef.set({
+            posts: firebase.firestore.FieldValue.arrayUnion(post)
+          },)
+          .then(() => {
+            console.log('New posts db is created, a new post is added to the database');
+          })
+          .catch((err) => {
+            console.log('An error is occured: ', err);
+          });
+        }
       })
-      .catch((err) => {
-        console.log('An error is occured: ', err);
-      });
+      .catch(err => {
+        console.log(err);
+      })
   }
 
   deleteItem() {
     // Delete an item
   }
 
-  getOneUserPosts(): Observable<UserPost[]> {
-    return this.usersPostsDB.doc(`${this.uid}`)
-    .collection<UserPost>('myPosts').valueChanges();
+  getOneUserPosts() {
+    return this.usersPostsDB.doc(`${this.uid}`).valueChanges()
   }
 
   getAllUsersIDs() {
-    return this.usersPostsDB.valueChanges({idField: 'id'});
+    return this.usersPostsDB.valueChanges();
   }
 }
