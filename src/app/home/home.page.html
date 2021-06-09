@@ -4,32 +4,33 @@
 
 <ion-content>
     <div class="showWhenSearching">
+        <p *ngIf="users$ |async as users">{{users|json}}</p>
+        <p *ngIf="usersIDs">{{usersIDs[0]}}</p>
 
     </div>
-
-    <!-- <div *ngIf="usersPosts$ | async as usersPosts">
-        <p>{{usersPosts | json}}</p> -->
-    <!-- <ion-card class="cards-bg card" *ngFor="let post of usersPosts$">
+    <div *ngIf="usersPosts$">
+        <!-- <p>{{users[0].posts[users[0].posts.length-1]| json}}</p> -->
+        <ion-card class="cards-bg card" *ngFor="let users of usersPosts$ | async">
             <ion-card-title>
-                <h2 class="title">{{post.title}}</h2>
+                <h2 class="title">{{users.posts[users.posts.length-1].title}}</h2>
             </ion-card-title>
 
-            <img *ngIf="post.imageUrl !== '' || post.imageUrl !== null || post.imageUrl !== undefined; else showThis " class="attachedImg" [src]="post.imageUrl">
+            <img *ngIf="users.posts[users.posts.length-1].imageUrl !== '' || users.posts[users.posts.length-1].imageUrl !== null || users.posts[users.posts.length-1].imageUrl !== undefined; else showThis " class="attachedImg" [src]="users.posts[users.posts.length-1].imageUrl">
             <ng-template #showThis>
             </ng-template>
 
             <ion-card-content class="details">
                 <div class="text-container">
-                    <p>{{post.description}}</p>
+                    <p>{{users.posts[users.posts.length-1].description}}</p>
                     <ion-row>
                         <ion-col>
-                            <h1 class="priceTag">{{post.price |currency}}</h1>
+                            <h1 class="priceTag">{{users.posts[users.posts.length-1].price |currency}}</h1>
                         </ion-col>
                     </ion-row>
                 </div>
             </ion-card-content>
-        </ion-card> -->
-    <!-- </div> -->
-    <ion-button (click)="test()">Touch</ion-button>
+        </ion-card>
+    </div>
+    <!-- <p *ngIf="items">{{items[items.length-1] |json}}</p> -->
     <!-- <p *ngIf="items$ | async as items">{{items|json}}</p> -->
 </ion-content>

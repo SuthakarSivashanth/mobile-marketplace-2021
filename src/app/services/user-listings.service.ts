@@ -13,7 +13,7 @@ import { map } from 'rxjs/operators';
 export class UserListingsService {
   private usersFilesDB: AngularFireStorage;
   private usersPostsDB: AngularFirestoreCollection;  // References all the users
-  // private usersPostsDB$: Observable<DocumentData[]>;
+  private usersPostsDB$: Observable<DocumentData[]>;
   private uid;
 
   constructor(
@@ -24,7 +24,7 @@ export class UserListingsService {
     this.usersFilesDB = afs;
     this.uid = userService.getUserID();
     this.usersPostsDB = this.db.collection('usersPosts');
-    // this.usersPostsDB$ = this.usersPostsDB.valueChanges();
+    this.usersPostsDB$ = this.usersPostsDB.valueChanges();
   }
 
   addItem(post: UserPost) {
@@ -69,7 +69,20 @@ export class UserListingsService {
     return this.usersPostsDB.doc(`${this.uid}`).valueChanges()
   }
 
-  getAllUsersIDs() {
-    return this.usersPostsDB.valueChanges();
+  getAllUsersPosts() {
+    return this.usersPostsDB$;
+  }
+
+  getAllUsersWhoHasPosts() {
+    return this.usersPostsDB.snapshotChanges().pipe(
+      map(actions => {       
+        return actions.map(a => {
+          const data = a.payload.doc.data();
+          data.id = a.payload.doc.id;
+          data.$key = a.payload.doc.id;
+          return data.id;
+        });
+      })
+    );
   }
 }

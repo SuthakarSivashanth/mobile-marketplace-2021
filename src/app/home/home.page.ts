@@ -7,6 +7,7 @@ import { catchError, filter, switchMap, takeUntil, map } from 'rxjs/operators';
 import { AuthenticationService } from '../services/authentication.service';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
+import { UserPost } from '../models/UserPost';
 
 @Component({
   selector: 'app-home',
@@ -15,35 +16,32 @@ import 'firebase/firestore';
 })
 export class HomePage implements OnInit {
   searchQuery: string = '';
-  // usersPosts$: Observable<firebase.firestore.DocumentData[]>;
-  items: Array<any>;
-  items$;
-  data;
+  items: Array<UserPost>;
+  usersPosts$;
+  users$;
+  myUsers$;
+  usersIDs: Array<any>;
 
   constructor(
     private userListingsService: UserListingsService,
     private userService: UserService
   ) { 
-  
-    // this.userService.getMyUsers().subscribe(res => {
-    //   console.log(res);
-    // })
+    this.usersPosts$ = this.userListingsService.getAllUsersPosts();
+    this.users$ = this.userListingsService.getAllUsersWhoHasPosts();
+    this.myUsers$ = this.userService.getMyUsers();
+
+    this.userListingsService.getAllUsersWhoHasPosts()
+      .subscribe(id => {
+        this.usersIDs = id;
+        console.log(this.usersIDs);
+      });
   }
 
   ngOnInit() {
-    
   }
 
   getItems($event) {
 
   }
 
-  test() {
-    // console.log(this.items);
-    console.log('touched!');
-    // console.log(this.items$);
-  }
-
-
-  
 }
