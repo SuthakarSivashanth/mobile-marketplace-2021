@@ -8,6 +8,7 @@ import { AuthenticationService } from '../services/authentication.service';
 import firebase from 'firebase/app';
 import 'firebase/firestore';
 import { UserPost } from '../models/UserPost';
+import { first } from 'rxjs/operators';
 
 @Component({
   selector: 'app-home',
@@ -16,32 +17,57 @@ import { UserPost } from '../models/UserPost';
 })
 export class HomePage implements OnInit {
   searchQuery: string = '';
-  items: Array<UserPost>;
+  items: any[];
+  itemsBackup: any[];
   usersPosts$;
-  users$;
-  myUsers$;
-  usersIDs: Array<any>;
+  isSearching = false;
+  allUsers;
 
   constructor(
     private userListingsService: UserListingsService,
     private userService: UserService
   ) { 
     this.usersPosts$ = this.userListingsService.getAllUsersPosts();
-    this.users$ = this.userListingsService.getAllUsersWhoHasPosts();
-    this.myUsers$ = this.userService.getMyUsers();
+    
+  }
 
-    this.userListingsService.getAllUsersWhoHasPosts()
-      .subscribe(id => {
-        this.usersIDs = id;
-        console.log(this.usersIDs);
+  async ngOnInit() {
+    this.allUsers = this.userListingsService.getAllUsersPosts()
+      .subscribe(data => {
+        this.allUsers = data.map(users => {
+          return users;
+        })
       });
+    
+    this.items = await this.initializeItems();
   }
 
-  ngOnInit() {
+  async initializeItems(): Promise<any> {
+    const items = await this.userListingsService.getAllUsersPosts().pipe(first()).toPromise();
+    this.itemsBackup = items;
+    return items;
   }
 
-  getItems($event) {
+  async getItems($event) {
+    // Get the search bar value
+    const searchValue = $event.target.value;
+    this.isSearching = true;
+    console.log(this.isSearching);
+    // console.log(this.data[2].posts[0].title);
+    // console.log(this.allUsers);
 
+    this.items = this.itemsBackup;
+    
+    if (!searchValue) {
+      return;
+    }
+
+    this.items = this.items.filter(data => {
+      switchMap(data.posts)
+      console.log(data.posts);
+      return data.posts.title;
+    })
   }
+
 
 }
